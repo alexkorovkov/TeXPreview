@@ -1,0 +1,21 @@
+{
+  "latex_path": "C:/texlive/2012/bin/",
+
+  "pdf_latex_compiller": "pdflatex",
+
+  "pdf_open_app": "C:/Program Files (x86)/Adobe/Reader 11.0/Reader/AcroRd32.exe",
+
+  "always_load_preambule": true,
+
+  "load_preambule_after_error": false,
+
+  //example: "\\newcommand{\\a}{{\\alpha}}",
+  "default_preambule": "",
+
+  //unfortunately adobe reader can't automaticaly reload the new pdf file
+  //if pdf_open_app could do it auto reload would work 
+  //variants: "application_reload", "file_reload", false, true
+  "auto_reload": "application_reload",
+  
+  "extensions": [ "tex", "sty", "bib" ]
+}

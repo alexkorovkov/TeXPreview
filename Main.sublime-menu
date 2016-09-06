@@ -1,0 +1,122 @@
+[
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "TeXPreview",
+                        "children":
+                        [
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/TeXPreview/TeXPreview (OSX).sublime-settings",
+                                    "platform": "OSX"
+                                },
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/TeXPreview/TeXPreview (Linux).sublime-settings",
+                                    "platform": "Linux"
+                                },
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/TeXPreview/TeXPreview (Windows).sublime-settings",
+                                    "platform": "Windows"
+                                },
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/TeXPreview (OSX).sublime-settings",
+                                    "platform": "OSX"
+                                },
+                                "caption": "Settings – User"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/TeXPreview (Linux).sublime-settings",
+                                    "platform": "Linux"
+                                },
+                                "caption": "Settings – User"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/TeXPreview (Windows).sublime-settings",
+                                    "platform": "Windows"
+                                },
+                                "caption": "Settings – User"
+                            },
+                                { "caption": "-" },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/TeXPreview/Default (OSX).sublime-keymap",
+                                    "platform": "OSX"
+                                },
+                                "caption": "Key Bindings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/TeXPreview/Default (Linux).sublime-keymap",
+                                    "platform": "Linux"
+                                },
+                                "caption": "Key Bindings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/TeXPreview/Default (Windows).sublime-keymap",
+                                    "platform": "Windows"
+                                },
+                                "caption": "Key Bindings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default (OSX).sublime-keymap",
+                                    "platform": "OSX"
+                                },
+                                "caption": "Key Bindings – User"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default (Linux).sublime-keymap",
+                                    "platform": "Linux"
+                                },
+                                "caption": "Key Bindings – User"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default (Windows).sublime-keymap",
+                                    "platform": "Windows"
+                                },
+                                "caption": "Key Bindings – User"
+                            },
+                            { "caption": "-" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

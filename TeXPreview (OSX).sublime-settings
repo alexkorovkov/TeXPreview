@@ -1,0 +1,22 @@
+{
+  //this is the path to pdflatex for modern OS X systems >= 10.10 (Yosemite)
+  //for older one the default path is ":/usr/local/bin"
+  "latex_path": ":/Library/TeX/texbin/",
+
+  "pdf_latex_compiller": "pdflatex",
+
+  //"path_to_app/app_name optins"
+  "pdf_open_app": "/Applications/Skim.app/Contents/MacOS/Skim",
+
+  "always_load_preambule": false,
+
+  "load_preambule_after_error": true,
+
+  //example: "\\newcommand{\\a}{{\\alpha}}",
+  "default_preambule": "",
+
+  //variants: "application_reload", "file_reload", false, true
+  "auto_reload": "true",
+  
+  "extensions": [ "tex", "sty", "bib" ]
+}

@@ -1,0 +1,10 @@
+[
+    {
+        "keys": ["ctrl+l"],
+        "command": "latex_preview"
+    },
+    {
+        "keys": ["ctrl+shift+l"],
+        "command": "latex_stop_preview"
+    }
+]

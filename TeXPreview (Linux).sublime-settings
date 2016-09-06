@@ -1,0 +1,19 @@
+{
+  "latex_path": ":/usr/local/bin",
+
+  "pdf_latex_compiller": "pdflatex",
+
+  "pdf_open_app": "okular",
+
+  "always_load_preambule": false,
+
+  "load_preambule_after_error": true,
+
+  //example: "\\newcommand{\\a}{{\\alpha}}",
+  "default_preambule": "",
+
+  //variants: "application_reload", "file_reload", false, true
+  "auto_reload": "file_reload",
+  
+  "extensions": [ "tex", "sty", "bib" ]
+}
