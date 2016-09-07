@@ -33,25 +33,25 @@ Examples for TeXPreview options for Linux platform:
 ```  
    "latex_path": ":/usr/local/bin"
 ```
-- "pdf_latex_compiller" - pdf latex compiler
+- "pdf_latex_compiler" - pdf latex compiler
 ``` 
- "pdf_latex_compiller": "pdflatex"
+ "pdf_latex_compiler": "pdflatex"
 ``` 
 - "pdf_open_app" - external program for opening result .pdf file with an equation
 ``` 
   "pdf_open_app": "okular"
 ``` 
-- "always_load_preambule" [true, false] - option to load your .tex file preamble every time when you build your equation via pdflatex compiller
+- "always_load_preamble" [true, false] - option to load your .tex file preamble every time when you build your equation via pdflatex compiler
 ```
-  "always_load_preambule": false
+  "always_load_preamble": false
 ```
-- "load_preambule_after_error" [true, false] - option to load preamble if .pdf file isn't exist 
+- "load_preamble_after_error" [true, false] - option to load preamble if .pdf file isn't exist 
 ```
-  "load_preambule_after_error": true
+  "load_preamble_after_error": true
 ```
-- "default_preambule" - preamble that will add in a temporary tex file
+- "default_preamble" - preamble that will add in a temporary tex file
 ```
-  "default_preambule": "\\newcommand{\\Al}{{\\alpha}}"
+  "default_preamble": "\\newcommand{\\Al}{{\\alpha}}"
 ```
 - "auto_reload" ["application_reload", "file_reload", false, true] - variants to use the plugin. "application_reload" variant will reopen an external application (works in every OS, but it takes a lot of time) on every changing of an equation, "file_reload" (or true) variant only replace .pdf file (works excelent on OS X (with default Skim.app) and Linux (with default Okular))  on every changing of an equation, false variant only compile and open .pdf file.
 ```

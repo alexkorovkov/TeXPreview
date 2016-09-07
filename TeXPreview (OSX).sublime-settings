@@ -3,17 +3,17 @@
   //for older one the default path is ":/usr/local/bin"
   "latex_path": ":/Library/TeX/texbin/",
 
-  "pdf_latex_compiller": "pdflatex",
+  "pdf_latex_compiler": "pdflatex",
 
   //"path_to_app/app_name optins"
   "pdf_open_app": "/Applications/Skim.app/Contents/MacOS/Skim",
 
-  "always_load_preambule": false,
+  "always_load_preamble": false,
 
-  "load_preambule_after_error": true,
+  "load_preamble_after_error": true,
 
   //example: "\\newcommand{\\a}{{\\alpha}}",
-  "default_preambule": "",
+  "default_preamble": "",
 
   //variants: "application_reload", "file_reload", false, true
   "auto_reload": "true",

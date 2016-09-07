@@ -4,9 +4,9 @@ from subprocess import Popen
 import os
 
 try:  # python 3
-    from .functions import surroundingTeXEquation, makeOutput, readPreambule, ENVIRON
+    from .functions import surroundingTeXEquation, makeOutput, readPreamble, ENVIRON
 except ValueError:  # python 2
-    from functions import surroundingTeXEquation, makeOutput, readPreambule, ENVIRON
+    from functions import surroundingTeXEquation, makeOutput, readPreamble, ENVIRON
 
 
 isRun = False
@@ -26,20 +26,20 @@ def makeFile(view):
 
     settings = sublime.load_settings("TeXPreview.sublime-settings")    
 
-    always_load_preambule = settings.get("always_load_preambule")
-    load_preambule_after_error = settings.get("load_preambule_after_error") 
+    always_load_preamble = settings.get("always_load_preamble")
+    load_preamble_after_error = settings.get("load_preamble_after_error") 
 
-    if (always_load_preambule == True):
-        preambule = readPreambule(view.substr(sublime.Region(0, view.size())))
+    if (always_load_preamble == True):
+        preamble = readPreamble(view.substr(sublime.Region(0, view.size())))
     else:
-        preambule = None
+        preamble = None
 
-    nResFileName = makeOutput(code, preambule, os.path.dirname(view.file_name()))
+    nResFileName = makeOutput(code, preamble, os.path.dirname(view.file_name()))
 
-    if (load_preambule_after_error == True):
+    if (load_preamble_after_error == True):
         if (nResFileName == None):
-            preambule = readPreambule(view.substr(sublime.Region(0, view.size())))
-            nResFileName = makeOutput(code, preambule,os.path.dirname(view.file_name()))
+            preamble = readPreamble(view.substr(sublime.Region(0, view.size())))
+            nResFileName = makeOutput(code, preamble,os.path.dirname(view.file_name()))
 
     return nResFileName
 

@@ -8,7 +8,7 @@ ENVIRON = os.environ
 
 EQUATION_COMPILE = re.compile(r'\\begin\{\s*(?:align|alignat|aligned|alignedat|displaymath|displaymath|eqnarray|equation|flalign|gather|gathered|math|multline|xalignat)\*?\}\s*(?s).+?\\end\{\s*.+?\}|\$\$.+?\$\$|\$.+?\$|\\\[.+?\\\]|\\\(.+?\\\)')
 
-LaTeX_PREAMBULE = re.compile(r'\\documentclass.*?\{.+?\}(?s).+?\\begin\{document\}')
+LaTeX_Preamble = re.compile(r'\\documentclass.*?\{.+?\}(?s).+?\\begin\{document\}')
 DOCUMENT_CLASS_RE = re.compile(r'\\documentclass.*?\{.+?\}')
 
 def surroundingTeXEquation(data, cursor):
@@ -26,23 +26,23 @@ def surroundingTeXEquation(data, cursor):
 
     return None
 
-def  readPreambule(data):
+def  readPreamble(data):
     '''
-    Find LaTeX preambule
+    Find LaTeX preamble
     '''
 
-    preambule = LaTeX_PREAMBULE.search(data)
-    if (preambule == None):
+    preamble = LaTeX_Preamble.search(data)
+    if (preamble == None):
         return ""
     else:
-        #preambule = DOCUMENT_CLASS_RE.sub('\documentclass[convert={density=600,size=200x200,outext=.png},preview]{standalone}', preambule.group(0))
-        preambule = DOCUMENT_CLASS_RE.sub('\documentclass[preview]{standalone}', preambule.group(0))
-        return preambule
+        #preamble = DOCUMENT_CLASS_RE.sub('\documentclass[convert={density=600,size=200x200,outext=.png},preview]{standalone}', preamble.group(0))
+        preamble = DOCUMENT_CLASS_RE.sub('\documentclass[preview]{standalone}', preamble.group(0))
+        return preamble
 
     return ""
 
 
-def makeOutput(code, preambule, tmpDir):
+def makeOutput(code, preamble, tmpDir):
     '''
     Convert LaTeX code
     '''
@@ -53,14 +53,14 @@ def makeOutput(code, preambule, tmpDir):
     os.chdir(tmpDir)
 
     settings = sublime.load_settings("TeXPreview.sublime-settings")
-    default_preambule = settings.get("default_preambule")
-    pdf_latex_compiller = settings.get("pdf_latex_compiller")
+    default_preamble = settings.get("default_preamble")
+    pdf_latex_compiler = settings.get("pdf_latex_compiler")
 
     # temporary LaTeX file
-    if (preambule == None):
-       code = r'\documentclass[preview]{standalone}' + default_preambule +r'\begin{document}'+code+r'\end{document}'
+    if (preamble == None):
+       code = r'\documentclass[preview]{standalone}' + default_preamble +r'\begin{document}'+code+r'\end{document}'
     else: 
-        code = preambule+code+r'\end{document}'
+        code = preamble+code+r'\end{document}'
 
     
     eqfile = tempfile.NamedTemporaryFile(prefix='sublime_text_latex_', dir=tmpDir, suffix='.tex', delete=False, mode='wb')
@@ -73,9 +73,9 @@ def makeOutput(code, preambule, tmpDir):
     
     #for hide cmd in windows
     if (os.name == 'nt'):
-        Popen([pdf_latex_compiller,'-interaction=nonstopmode','-shell-escape', eqfile.name], shell=True, env=ENVIRON).wait()
+        Popen([pdf_latex_compiler,'-interaction=nonstopmode','-shell-escape', eqfile.name], shell=True, env=ENVIRON).wait()
     else:
-        Popen([pdf_latex_compiller,'-shell-escape', eqfile.name], shell=False, env=ENVIRON).wait()
+        Popen([pdf_latex_compiler,'-shell-escape', eqfile.name], shell=False, env=ENVIRON).wait()
     
     
     
