@@ -8,6 +8,8 @@ This plugin can do these:
 -   Monitor for changing an equation while you are writting it (unfortunatelu Windows doesn't support it well)
 -   Open and close an external program
 
+To view an equation you shold set the cursor in TeX equation code and run "latex_preview" command.
+
 TeXPreview commands
 ==========
 To run and stop TeXPreview plugin you should use the following shortcut 
