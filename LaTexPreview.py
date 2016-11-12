@@ -4,22 +4,33 @@ from subprocess import Popen
 import os
 
 try:  # python 3
-    from .functions import surroundingTeXEquation, makeOutput, readPreamble, ENVIRON
+    from .functions import cutEquation, cutBlock, makeOutput, readPreamble, ENVIRON, fileDelete, FileProperties, workingFiles
 except ValueError:  # python 2
-    from functions import surroundingTeXEquation, makeOutput, readPreamble, ENVIRON
+    from functions import cutEquation, cutBlock, makeOutput, readPreamble, ENVIRON, fileDelete, FileProperties, workingFiles
 
 
-isRun = False
-resFileName = None
-runProc = None
 
-def makeFile(view):
+def stopPrevew(fileName):
+
+    global workingFiles
+
+    if (fileName in workingFiles):
+        currentProperties = workingFiles[fileName]
+        currentProperties.isRun = False
+
+        if (currentProperties.runProc != None):
+            if (currentProperties.runProc.poll() == None):
+                currentProperties.runProc.kill()
+
+        if  (currentProperties.resFileName != None):
+            fileDelete(currentProperties.resFileName)
+            
+
+
+def makeFile(view, cutFunction):
     sel = view.sel()[0]
     
-    code = surroundingTeXEquation(
-            view.substr(sublime.Region(0, view.size())),
-            sel.begin()
-        )
+    code = cutFunction(view)
 
     if not code:
         return None
@@ -44,83 +55,85 @@ def makeFile(view):
     return nResFileName
 
 
-def applicationReload(view):
-    global isRun
-    global resFileName
-    global runProc
+def applicationReload(view, currentProperties):
 
+    nResFileName = makeFile(view, currentProperties.cutFunction)
 
-    nResFileName = makeFile(view)
     if (nResFileName == None):
         return
 
-    if (runProc != None):        
-        if (runProc.poll() == None):
-            runProc.kill()
+    if (currentProperties.runProc != None):        
+        if (currentProperties.runProc.poll() == None):
+            currentProperties.runProc.kill()
 
-    if (resFileName != None):
-        while ((os.path.exists(resFileName))):
-            try:
-                os.unlink(resFileName)
-            except Exception:
-                pass
-    resFileName = nResFileName
+    if (currentProperties.resFileName != None):
+        while ((os.path.exists(currentProperties.resFileName))):
+            fileDelete(currentProperties.resFileName)
+
+    currentProperties.resFileName = nResFileName
    
     try:
         pdf_open_app = sublime.load_settings("TeXPreview.sublime-settings").get("pdf_open_app")
-        runProc = Popen((pdf_open_app + " " + str(resFileName)).split(), env=ENVIRON)
+        currentProperties.runProc = Popen((pdf_open_app + " " + str(currentProperties.resFileName)).split(), env=ENVIRON)
         
     except Exception as e:
-        sublime.error_message('LaTeX Preview: Could not open the file! '+ str(resFileName))
+        sublime.error_message('LaTeX Preview: Could not open the file! '+ str(currentProperties.resFileName))
         raise e
 
-    isRun = True
+    currentProperties.isRun = True
 
-def changePic(view):
+def changePic(view, currentProperties):
     
-    global resFileName
-
-    nResFileName = makeFile(view)
+    nResFileName = makeFile(view, currentProperties.cutFunction)
 
     if (nResFileName == None):
         return 
     try:
-        os.remove(resFileName)
-        os.rename(nResFileName, resFileName)
+        os.remove(currentProperties.resFileName)
+        os.rename(nResFileName, currentProperties.resFileName)
 
     except Exception as e:
         os.remove(nResFileName)
-        sublime.error_message('LaTeX Preview: Could not change the file! ' +  str(resFileName))
-        raise e
+        
+        #sublime.error_message('LaTeX Preview: Could not change the file! ' +  str(currentProperties.resFileNameresFileName))
+        #raise e
 
 
 class LatexPreviewEvent(sublime_plugin.EventListener):
     
     def on_selection_modified_async(self, view):
-        
-        global isRun
-        global resFileName
-        global runProc
-        
-        if ((runProc != None) and (runProc.poll() != None)):
-            runProc = None
-            isRun = False
-            if ((os.path.exists(resFileName))):
-                os.unlink(resFileName)
+
+        global workingFiles
+
+        fileName = view.file_name()
+
+        if not(fileName in workingFiles):
             return
 
-        if (isRun == False):
+        currentProperties = workingFiles[fileName]
+
+        
+        if ((currentProperties.runProc != None) and (currentProperties.runProc.poll() != None)):
+            currentProperties.runProc = None
+            currentProperties.isRun = False
+
+            if ((os.path.exists(currentProperties.resFileName))):
+                fileDelete(currentProperties.resFileName)
+                return
+
+        if (currentProperties.isRun == False):
             return
 
         auto_reload = sublime.load_settings("TeXPreview.sublime-settings").get("auto_reload") 
-        
+
         if (auto_reload == False):
             return
+
         if (auto_reload == "application_reload"):
-            applicationReload(view)
+            applicationReload(view, currentProperties)
             return
 
-        changePic(view)
+        changePic(view, currentProperties)
         
 
     def on_load_async(self, view):
@@ -129,39 +142,58 @@ class LatexPreviewEvent(sublime_plugin.EventListener):
         
 
     def on_pre_close(self, view):
-        global isRun
-        global resFileName
-        if (isRun == True):
-            os.unlink(resFileName)
-        dirPath = os.path.dirname(view.file_name())+os.path.sep +r'TeX_Preview_tmp'
 
-        if ((os.path.exists(dirPath))):
-            os.rmdir(dirPath)
+        fileName = view.file_name()
+        stopPrevew(fileName)
 
 
 class LatexPreviewCommand(sublime_plugin.TextCommand):
 
     def run(self, view):
-        applicationReload(self.view)
+        fileName = self.view.file_name()
+
+        if (fileName == None):
+            return
+        if (fileName[-4:] != '.tex'):
+            return
+             
+        global workingFiles
+
+        if not(fileName in workingFiles):
+            workingFiles[fileName] = FileProperties()
+
+        currentProperties = workingFiles[fileName]
+        currentProperties.isRun = True
+        currentProperties.cutFunction = lambda x:cutEquation(x)
+        applicationReload(self.view, currentProperties)
+            
+
+class LatexBlockPreviewCommand(sublime_plugin.TextCommand):
+
+    def run(self, view):
+        fileName = self.view.file_name()
+
+        if (fileName == None):
+            return
+        if (fileName[-4:] != '.tex'):
+            return
+
+        global workingFiles
+
+        if not(fileName in workingFiles):
+            workingFiles[fileName] = FileProperties()
+
+        currentProperties = workingFiles[fileName]
+        currentProperties.isRun = True
+        currentProperties.cutFunction = lambda x:cutBlock(x)
+        applicationReload(self.view, currentProperties)
 
 
 class LatexStopPreviewCommand(sublime_plugin.TextCommand):
     def run(self, view):
 
-        global isRun
-        global resFileName
-        global runProc
+        fileName = self.view.file_name()
+        stopPrevew(fileName)
 
-        isRun = False
-        if (runProc != None):        
-            if (runProc.poll() == None):
-                runProc.kill()
-
-        if (resFileName != None):
-            while ((os.path.exists(resFileName))):
-                try:
-                    os.unlink(resFileName)
-                except Exception:
-                    pass
-
+        
         
