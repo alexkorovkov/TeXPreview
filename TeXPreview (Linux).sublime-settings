@@ -10,13 +10,17 @@
   "load_preamble_after_error": true,
 
   //example: "\\newcommand{\\a}{{\\alpha}}",
-  "default_preamble": "\\usepackage[utf8]{inputenc}",
+  "default_preamble": "",
 
   //variants: "application_reload", "file_reload", false, true
   "auto_reload": "file_reload",
   
   //variants:true, false
   "external_view": false,
+
+  "default_color": "\\color[rgb]{0.96875,0.96875,0.945313}",
+
+  "density" : 1000,
 
   "extensions": [ "tex", "sty", "bib" ]
 }
