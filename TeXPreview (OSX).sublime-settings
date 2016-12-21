@@ -1,7 +1,8 @@
 {
   //this is the path to pdflatex for modern OS X systems >= 10.10 (Yosemite)
   //for older one the default path is ":/usr/local/bin"
-  "latex_path": ":/Library/TeX/texbin/",
+  //you should also add path to convert application
+  "latex_path": ":/Library/TeX/texbin/:/opt/local/bin/",
 
   "pdf_latex_compiler": "pdflatex",
 
@@ -18,5 +19,12 @@
   //variants: "application_reload", "file_reload", false, true
   "auto_reload": "true",
   
+  //variants:true, false
+  "external_view": false,
+
+  "default_color": "\\color[rgb]{0.96875,0.96875,0.945313}",
+
+  "density" : 1000,
+
   "extensions": [ "tex", "sty", "bib" ]
 }

@@ -4,6 +4,10 @@
         "command": "latex_preview"
     },
     {
+        "keys": ["ctrl+t"],
+        "command": "latex_block_preview"
+    },
+    {
         "keys": ["ctrl+shift+l"],
         "command": "latex_stop_preview"
     }
