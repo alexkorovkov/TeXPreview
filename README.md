@@ -65,10 +65,10 @@ Examples for TeXPreview options for Linux platform:
 ```
 - "auto_reload" ["application_reload", "file_reload", false, true] - variants to use the plugin. "application_reload" variant will reopen an external application (works in every OS, but it takes a lot of time) on every changing of an equation, "file_reload" (or true) variant only replace .pdf file (works excelent on OS X (with default Skim.app) and Linux (with default Okular))  on every changing of an equation, false variant only compile and open .pdf file.
 ```
-- "auto_reload": "file_reload"
+   "auto_reload": "file_reload"
 ```
-
+- "external_view" - preview in external application (true) or in Sublime (false)
 ```
-- "external_view": "false" - preview in external application (true) or in Sublime (false)
+    "external_view": "false" 
 ```
 
