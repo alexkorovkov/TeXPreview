@@ -7,6 +7,12 @@ except ValueError:  # python 2
     from functions import *
     from openfunctions import *
 
+def plugin_loaded():
+    ENVIRON['PATH'] += str(
+                           sublime.load_settings("TeXPreview.sublime-settings").get("latex_path")
+                           )
+    print("Your path for TeXPrevew:", ENVIRON['PATH'])
+
 class LatexPreviewEvent(sublime_plugin.EventListener):
     
     def on_selection_modified_async(self, view):
