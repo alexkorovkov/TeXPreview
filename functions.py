@@ -8,9 +8,7 @@ import imghdr
 
 
 ENVIRON = os.environ
-ENVIRON['PATH'] += str(
-    sublime.load_settings("TeXPreview.sublime-settings").get("latex_path")
-    )
+
 
 EQUATION_SELECTOR = "meta.environment.math"
 BLOCK_SELECTOR = "meta.environment.math.block.be.latex"
